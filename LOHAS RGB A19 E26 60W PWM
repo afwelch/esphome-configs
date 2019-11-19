@@ -1,0 +1,70 @@
+----
+title: LOHAS RGB A19 E26 60W PWM 
+date-published: 2019-19-19
+type: light
+standard: us
+----
+
+## Notes
+ This is for the LOHAS blubs that are PWM based and not based on the my92x1 chips. 
+ Amazon link - https://www.amazon.com/gp/product/B07T7W7ZMW/ref=ppx_yo_dt_b_asin_title_o04_s00?ie=UTF8&psc=1
+ 
+ ## GPIO Pinout
+ 
+| Pin     | Function      |
+|---------|---------------|
+| GPIO5   | Red Channel   |
+| GPIO4   | Green Channel |
+| GPIO13  | Blue Channel  |
+
+## Basic Configuration
+'''yaml
+esphome:
+  name: lohasrgb
+  platform: ESP8266
+  board: esp01_1m
+
+wifi:
+  ssid: ssid
+  password: password
+
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: ssid
+    password: password
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+
+
+
+# Individual outputs
+output:
+  - platform: esp8266_pwm
+    id: output_red
+    pin: GPIO5
+ #   frequency: 10 hz
+  - platform: esp8266_pwm
+    id: output_green
+ #   frequency: 100 hz
+    pin: GPIO4
+  - platform: esp8266_pwm
+    id: output_blue
+    pin: GPIO13
+    inverted: false
+ #   frequency: 50 hz
+light:
+  - platform: rgb
+    name: "Lohas RGB"
+    red: output_red
+    green: output_green
+    blue: output_blue
+ 
